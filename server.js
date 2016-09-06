@@ -2,7 +2,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
-    cors = require('cors');
+    cors = require('cors'),
+    http = require('http');
 
 var DATABASE_NAME = "bestway";
 var API_BASE_PATH = "/api/v1";
@@ -31,8 +32,7 @@ serverInstance.get(API_BASE_PATH, function(req, res) {
     });
 });
 
-
 // Creating Http Server
 serverInstance.listen((process.env.PORT || 5000), function(){
     console.info('Http server running on http://localhost:' + (process.env.PORT || 5000));
-})
+});
