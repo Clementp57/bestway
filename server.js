@@ -5,6 +5,8 @@ var express = require('express'),
     cors = require('cors'),
     http = require('http');
 
+var weatherForecastJob = require('./jobs/weatherForecastJob');
+
 var DATABASE_NAME = "bestway";
 var API_BASE_PATH = "/api/v1";
 
@@ -36,3 +38,6 @@ serverInstance.get(API_BASE_PATH, function(req, res) {
 serverInstance.listen((process.env.PORT || 5000), function(){
     console.info('Http server running on http://localhost:' + (process.env.PORT || 5000));
 });
+
+// Test job
+//weatherForecastJob.executeJob();

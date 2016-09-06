@@ -17,4 +17,4 @@ var WeatherForecast = new mongoose.Schema({
         sunset: Date
     });
 
-module.exports = mongoose.model('WeatherForecast', Annoncements);
+module.exports = mongoose.model('WeatherForecast', WeatherForecast);
