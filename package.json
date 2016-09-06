@@ -1,0 +1,24 @@
+{
+  "name": "bestway",
+  "version": "1.0.0",
+  "description": "Data Service gathering datas from multiple APIs to provide the best way from one point to another in Paris",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Clementp57/bestway.git"
+  },
+  "author": "Clément Peyrabere",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Clementp57/bestway/issues"
+  },
+  "homepage": "https://github.com/Clementp57/bestway#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.6.0"
+  }
+}
