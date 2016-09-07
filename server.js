@@ -3,7 +3,8 @@ var express = require('express'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
     cors = require('cors'),
-    http = require('http');
+    http = require('http'),
+    schedule = require('node-schedule');
 
 var weatherForecastJob = require('./jobs/weatherForecastJob');
 
@@ -40,5 +41,19 @@ serverInstance.listen((process.env.PORT || 5000), function(){
     console.info('Http server running on http://localhost:' + (process.env.PORT || 5000));
 });
 
-// Test job
-//weatherForecastJob.executeJob();
+// Scheduling Jobs
+
+// Set recurrence rules
+var recurrenceEveryTenMinutes = new schedule.RecurrenceRule();
+recurrenceEveryTenMinutes.minute = [0, 10, 20, 30, 40, 50];
+var recurrenceEverySixHours = new schedule.RecurrenceRule();
+recurrenceEverySixHours.hour = [0, 6, 12, 18];
+recurrenceEverySixHours.minute = 0;
+
+// Call weather forecast job every 6 hours
+var weatherForecastJobSchedule = schedule.scheduleJob(recurrenceEverySixHours, function(){
+    // debug logs
+    var date = new Date();
+    console.log('weatherForecastJob running @' + date);
+    weatherForecastJob.executeJob();
+});
