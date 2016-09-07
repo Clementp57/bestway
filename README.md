@@ -1,3 +1,7 @@
 # bestway
 
-'docker-compose up'
+-- Initialize & run container
+docker-compose up
+
+-- Rebuild
+docker-compose build
