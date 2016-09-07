@@ -6,7 +6,6 @@ var express = require('express'),
     http = require('http'),
     schedule = require('node-schedule');
 
-var weatherForecastJob = require('./jobs/weatherForecastJob');
 var User = require('./models/User');
 
 var DATABASE_NAME = "bestway";
@@ -57,4 +56,3 @@ serverInstance.post(API_BASE_PATH + '/users', function(req, res) {
         msg: 'done'
       });
     });
-});
