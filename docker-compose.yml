@@ -24,12 +24,14 @@ services:
       - 80
     links:
       - mongo
-  # scheduler:
-  #   build: .
-  #   volumes:
-  #     - ./:/app
-  #   links:
-  #     - mongo
+  scheduler:
+    build:
+      context: .
+      dockerfile: ./dockerBuilds/scheduler/Dockerfile
+    volumes:
+      - ./:/app
+    links:
+      - mongo
   mongo:
     image: mongo
     ports:

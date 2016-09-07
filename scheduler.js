@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var schedule = require('node-schedule');
 
-var weatherForecastJob = require('../jobs/weatherForecastJob');
-var RATPTrafficJob = require('../jobs/RATPTrafficJob');
+var weatherForecastJob = require('./jobs/weatherForecastJob');
+var RATPTrafficJob = require('./jobs/RATPTrafficJob');
 
 var DATABASE_NAME = "bestway";
 var API_BASE_PATH = "/api/v1";
