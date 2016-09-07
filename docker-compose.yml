@@ -24,6 +24,12 @@ services:
       - 80
     links:
       - mongo
+  # scheduler:
+  #   build: .
+  #   volumes:
+  #     - ./:/app
+  #   links:
+  #     - mongo
   mongo:
     image: mongo
     ports:

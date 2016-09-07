@@ -3,15 +3,14 @@ var express = require('express'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
     cors = require('cors'),
-    http = require('http'),
-    schedule = require('node-schedule');
+    http = require('http');
 
 var User = require('./models/User');
 
 var DATABASE_NAME = "bestway";
 var API_BASE_PATH = "/api/v1";
 
-mongoose.connect("mongodb://mongo:27017/" + DATABASE_NAME, (error) => {
+mongoose.connect("mongodb://mongo:27017/" + DATABASE_NAME, function(error) {
   if(error) {
     console.log('Failed to connect mongod instance, please check mongodb is installed on your system and mongod instance is running on port 27017');
     console.error('Error:' + error);
@@ -56,3 +55,4 @@ serverInstance.post(API_BASE_PATH + '/users', function(req, res) {
         msg: 'done'
       });
     });
+});

@@ -9,10 +9,10 @@ RUN curl -LO "https://nodejs.org/dist/v4.5.0/node-v4.5.0-linux-x64.tar.gz" \
 && rm node-v4.5.0-linux-x64.tar.gz
 
 # Override haproxy default conf file
-COPY haproxy/haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
+COPY ../../haproxy/haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 
 # Create app directory
-ADD package.json /app/
+COPY package.json /app/
 WORKDIR /app
 
 # Install app dependencies
@@ -21,5 +21,5 @@ RUN npm install -v
 # Bundle app source
 COPY . /app
 
-EXPOSE 80
+EXPOSE 5000
 CMD [ "node", "server.js" ]
