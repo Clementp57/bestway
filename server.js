@@ -6,7 +6,8 @@ var express = require('express'),
     http = require('http'),
     schedule = require('node-schedule');
 
-var weatherForecastJob = require('./jobs/weatherForecastJob');
+    var weatherForecastJob = require('./jobs/weatherForecastJob');
+    var RATPTrafficJob = require('./jobs/RATPTrafficJob');
 
 var DATABASE_NAME = "bestway";
 var API_BASE_PATH = "/api/v1";
@@ -46,6 +47,8 @@ serverInstance.listen((process.env.PORT || 5000), function(){
 // Set recurrence rules
 var recurrenceEveryTenMinutes = new schedule.RecurrenceRule();
 recurrenceEveryTenMinutes.minute = [0, 10, 20, 30, 40, 50];
+var recurrenceEveryTenSeconds = new schedule.RecurrenceRule();
+recurrenceEveryTenSeconds.second = [0, 10, 20, 30, 40, 50];
 var recurrenceEverySixHours = new schedule.RecurrenceRule();
 recurrenceEverySixHours.hour = [0, 6, 12, 18];
 recurrenceEverySixHours.minute = 0;
@@ -56,4 +59,12 @@ var weatherForecastJobSchedule = schedule.scheduleJob(recurrenceEverySixHours, f
     var date = new Date();
     console.log('weatherForecastJob running @' + date);
     weatherForecastJob.executeJob();
+});
+
+// Call weather forecast job every 6 hours
+var RATPTrafficJobSchedule = schedule.scheduleJob(recurrenceEveryTenSeconds, function(){
+    // debug logs
+    var date = new Date();
+    console.log('RATP traffic running @' + date);
+    RATPTrafficJob.executeJob();
 });
