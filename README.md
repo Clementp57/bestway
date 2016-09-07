@@ -1,1 +1,3 @@
 # bestway
+
+'docker-compose up'

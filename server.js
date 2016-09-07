@@ -10,9 +10,10 @@ var weatherForecastJob = require('./jobs/weatherForecastJob');
 var DATABASE_NAME = "bestway";
 var API_BASE_PATH = "/api/v1";
 
-mongoose.connect("mongodb://localhost/" + DATABASE_NAME, (error) => {
+mongoose.connect("mongodb://mongo:27017/" + DATABASE_NAME, (error) => {
   if(error) {
     console.log('Failed to connect mongod instance, please check mongodb is installed on your system and mongod instance is running on port 27017');
+    console.error('Error:' + error);
   } else {
     console.log('Mongodb connection established');
   }
