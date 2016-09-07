@@ -31,8 +31,6 @@ services:
   haproxy:
     image: haproxy:latest
     build: ./haproxy
-    #volumes:
-    # - haproxy:/haproxy-override
     links:
      - weba
      - webb
