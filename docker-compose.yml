@@ -1,14 +1,46 @@
 version: "2"
 services:
-  web:
+  weba:
     build: .
     volumes:
       - ./:/app
-    ports:
-      - "5000:5000"
+    expose:
+      - 80
+    links:
+      - mongo
+  webb:
+    build: .
+    volumes:
+      - ./:/app
+    expose:
+      - 80
+    links:
+      - mongo
+  webc:
+    build: .
+    volumes:
+      - ./:/app
+    expose:
+      - 80
     links:
       - mongo
   mongo:
     image: mongo
     ports:
       - "27017:27017"
+  haproxy:
+    image: haproxy:latest
+    build: ./haproxy
+    #volumes:
+    # - haproxy:/haproxy-override
+    links:
+     - weba
+     - webb
+     - webc
+    ports:
+     - "80:80"
+     - "70:70"
+
+    expose:
+     - "80"
+     - "70"
