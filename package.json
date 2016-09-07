@@ -1,6 +1,7 @@
 {
   "name": "bestway",
   "version": "1.0.0",
+  "private": true,
   "description": "Data Service gathering datas from multiple APIs to provide the best way from one point to another in Paris",
   "main": "server.js",
   "scripts": {

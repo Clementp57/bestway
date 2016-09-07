@@ -30,6 +30,11 @@ serverInstance.use(bodyParser.urlencoded({
     extended: true
 })); // support encoded bodies
 
+// HTTP check
+serverInstance.get('/', function (req, res) {
+  res.send('<html><body>Hello from Node.js container </body></html>');
+});
+
 // Test Route
 serverInstance.get(API_BASE_PATH, function(req, res) {
     res.status(200).json({
@@ -38,8 +43,8 @@ serverInstance.get(API_BASE_PATH, function(req, res) {
 });
 
 // Creating Http Server
-serverInstance.listen((process.env.PORT || 5000), function(){
-    console.info('Http server running on http://localhost:' + (process.env.PORT || 5000));
+serverInstance.listen((process.env.PORT || 80), function(){
+    console.info('Http server running on http://localhost:' + (process.env.PORT || 80));
 });
 
 // Scheduling Jobs
