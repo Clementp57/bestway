@@ -8,6 +8,7 @@ services:
       - 80
     links:
       - mongo
+      - memcached
   webb:
     build: .
     volumes:
@@ -16,6 +17,7 @@ services:
       - 80
     links:
       - mongo
+      - memcached
   webc:
     build: .
     volumes:
@@ -24,6 +26,7 @@ services:
       - 80
     links:
       - mongo
+      - memcached
   scheduler:
     build:
       context: .
@@ -36,9 +39,14 @@ services:
     image: mongo
     ports:
       - "27018:27017"
+  memcached:
+    image: sameersbn/memcached:latest
+    ports:
+      - "11211:11211"
+    restart: always
   haproxy:
     image: haproxy:latest
-    build: ./haproxy
+    build: ./dockerBuilds/haproxy
     links:
      - weba
      - webb

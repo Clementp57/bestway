@@ -8,9 +8,6 @@ RUN curl -LO "https://nodejs.org/dist/v4.5.0/node-v4.5.0-linux-x64.tar.gz" \
 && tar -xzf node-v4.5.0-linux-x64.tar.gz -C /usr/local --strip-components=1 \
 && rm node-v4.5.0-linux-x64.tar.gz
 
-# Override haproxy default conf file
-COPY ./haproxy/haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
-
 # Create app directory
 COPY package.json /app/
 WORKDIR /app

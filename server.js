@@ -5,19 +5,34 @@ var express = require('express'),
     cors = require('cors'),
     http = require('http');
 
-var User = require('./models/User');
+var validateRequest = ('./middlewares/validateRequest'),
+    validateToken = ('./middlewares/validateToken'),
+    routes = require('./routes/index'),
+    public_routes = require('./routes/public'),
+    mongodb = require('./services/mongodb'),
+    memcached = require('./services/memcached');
 
-var DATABASE_NAME = "bestway";
+var User = require('./models/User');
 var API_BASE_PATH = "/api/v1";
 
-mongoose.connect("mongodb://mongo:27017/" + DATABASE_NAME, function(error) {
-  if(error) {
-    console.log('Failed to connect mongod instance, please check mongodb is installed on your system and mongod instance is running on port 27017');
-    console.error('Error:' + error);
-  } else {
-    console.log('Mongodb connection established');
+// Connecting to databases
+mongodb.connect();
+memcached.connect();
+
+// test
+memcached.getInstance().set('foo', 'bar', 10, function (err) {
+  if(err) console.log(err)
+  else {
+    memcached.getInstance().get('foo', function(err, data) {
+      if(err) console.log(err)
+      else {
+        console.log('GOT FOO => ', data);
+      }
+    });
   }
+
 });
+
 
 var serverInstance = express();
 serverInstance.use(cors());
@@ -28,16 +43,17 @@ serverInstance.use(bodyParser.urlencoded({
     extended: true
 })); // support encoded bodies
 
-// HTTP check
+// Routing
+serverInstance.all('/public/*', public_routes);
+serverInstance.use(API_BASE_PATH, routes);
+serverInstance.all(API_BASE_PATH + '/*' , [
+    require('./middlewares/validateToken'),
+    require('./middlewares/validateRequest')
+]);
+
+// HAProxy health check
 serverInstance.get('/', function (req, res) {
   res.send('<html><body>Hello from Node.js container </body></html>');
-});
-
-// Test Route
-serverInstance.get(API_BASE_PATH, function(req, res) {
-    res.status(200).json({
-        msg: 'OK'
-    });
 });
 
 // Creating Http Server
