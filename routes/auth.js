@@ -1,5 +1,7 @@
 var jwt = require('jwt-simple');
 var User = require('../models/User.js');
+var redis = require('../services/redis');
+
 var auth = {
 
   login: function(req, res) {
@@ -88,7 +90,7 @@ var auth = {
 
 // TODO: Insert token in Memcache
 function registerToken(token, userId) {
-
+  redis.getInstance().set(token, userId);
 }
 
 // private method

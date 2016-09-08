@@ -13,95 +13,123 @@ var job = function() {
     var body = '';
 
     res.on('data', function(chunk){
-        body += chunk;
+      body += chunk;
     });
 
     res.on('end', function(){
-        var response = JSON.parse(body);
+      var response = JSON.parse(body);
 
-        // save metro entries
-        for (var i = 0; i < response["response"]["metros"].length; i++) {
+      // save metro entries
+      for (var i = 0; i < response["response"]["metros"].length; i++) {
 
-            var object = response["response"]["metros"][i];
-            var ratpTrafficMetro = new RATPTraffic({
-              id: "metro" + object["line"],
-              type: "metro",
-              line: object["line"],
-              slug: object["slug"],
-              message: object["message"]
-            });
-            (function(obj, ratpObject){
-
-            RATPTraffic.findById("metro" + obj["line"], function(error, response){
-
+        var metroObject = response["response"]["metros"][i];
+        var ratpTrafficMetro = new RATPTraffic({
+          name: "metro" + metroObject["line"],
+          type: "metro",
+          line: metroObject["line"],
+          slug: metroObject["slug"],
+          message: metroObject["message"]
+        });
+        (function(obj, ratpObject){
+          RATPTraffic.find({'name' : "metro" + obj["line"]}, function(error, response){
+            if(error){
+              console.log("•••error : " + error);
+            } else if(response == ""){
+              ratpObject.save(function(error, response){
                 if(error){
-                  console.log("entry with id metro" + obj["line"]);
-
-
-                    ratpObject.save(function(error, response){
-                      if(error){
-                        console.log("•••error : " + error);
-                      }
-                      console.log("response : " + response);
-                    });
+                  console.log("•••error while saving new RATPTraffic : " + error);
                 } else {
-                  console.log("response : " + response);
+                  // console.log("saved new RATPTraffic object : " + response);
                 }
-            });
-          })(object, ratpTrafficMetro);
-
-
-
-        }
-
-        // save rer entries
-        for (var i = 0; i < response["response"]["rers"].length; i++) {
-          var object = response["response"]["rers"][i];
-          var ratpTrafficRer = new RATPTraffic({
-            id: "rer" + object["line"],
-            type: "rer",
-            line: object["line"],
-            slug: object["slug"],
-            message: object["message"]
+              });
+            } else {
+              RATPTraffic.update({'name' : response["name"]}, {'slug' : response["slug"], 'message' : response["message"]}, {}, function(error, reponse){
+                if(error){
+                  console.log("•••error : " + error);
+                } else {
+                  // console.log("RATPTraffic object updated : " + response);
+                }
+              });
+            }
           });
-          // ratpTrafficRer.save(function(error, response){
-          //   if(error){
-          //     console.log("•••error : " + error);
-          //   }
-          //   console.log("response : " + response);
-          // })
-        }
+        })(metroObject, ratpTrafficMetro);
+      }
 
-        // save tramway entries
-        for (var i = 0; i < response["response"]["tramways"].length; i++) {
-          var object = response["response"]["tramways"][i];
-          var ratpTrafficTram = new RATPTraffic({
-            id: "tram" + object["line"],
-            type: "tram",
-            line: object["line"],
-            slug: object["slug"],
-            message: object["message"]
-          });
-          // ratpTrafficTram.save(function(error, response){
-          //   if(error){
-          //     console.log("•••error : " + error);
-          //   }
-          //   console.log("response : " + response);
-          // })
-        }
-
-
-
-        // log BDD
-        RATPTraffic.find({}).exec(function(error, data){
-          console.log("BDD LOG | data : " + data);
+      // save rer entries
+      for (var i = 0; i < response["response"]["rers"].length; i++) {
+        var rerObject = response["response"]["rers"][i];
+        var ratpTrafficRer = new RATPTraffic({
+          name: "rer" + rerObject["line"],
+          type: "rer",
+          line: rerObject["line"],
+          slug: rerObject["slug"],
+          message: rerObject["message"]
         });
 
-        // Drop RATPTraffic entries
-        // RATPTraffic.remove({}, function (err) {
-        //   if (err) return handleError(err);
-        //     console.log("removed !!");
-        // });
+        (function(obj, ratpObject){
+
+          RATPTraffic.find({'name' : "rer" + obj["line"]}, function(error, response){
+
+            if(error){
+              console.log("•••error : " + error);
+            } else if(response == ""){
+              ratpObject.save(function(error, response){
+                if(error){
+                  console.log("•••error while saving new RATPTraffic : " + error);
+                } else {
+                  // console.log("saved new RATPTraffic object : " + response);
+                }
+              });
+            } else {
+              RATPTraffic.update({'name' : response["name"]}, {'slug' : response["slug"], 'message' : response["message"]}, {}, function(error, reponse){
+                if(error){
+                  console.log("•••error : " + error);
+                } else {
+                  // console.log("RATPTraffic object updated : " + response);
+                }
+              });
+            }
+          });
+        })(rerObject, ratpTrafficRer);
+      }
+
+      // save tramway entries
+      for (var i = 0; i < response["response"]["tramways"].length; i++) {
+        var tramObject = response["response"]["tramways"][i];
+        var ratpTrafficTram = new RATPTraffic({
+          name: "tram" + tramObject["line"],
+          type: "tram",
+          line: tramObject["line"],
+          slug: tramObject["slug"],
+          message: tramObject["message"]
+        });
+
+        (function(obj, ratpObject){
+
+          RATPTraffic.find({'name' : "tram" + obj["line"]}, function(error, response){
+
+            if(error){
+              console.log("•••error : " + error);
+            } else if(response == ""){
+              ratpObject.save(function(error, response){
+                if(error){
+                  console.log("•••error while saving new RATPTraffic : " + error);
+                } else {
+                  // console.log("saved new RATPTraffic object : " + response);
+                }
+              });
+            } else {
+              RATPTraffic.update({'name' : response["name"]}, {'slug' : response["slug"], 'message' : response["message"]}, {}, function(error, reponse){
+                if(error){
+                  console.log("•••error : " + error);
+                } else {
+                  // console.log("RATPTraffic object updated : " + response);
+                }
+              });
+            }
+          });
+        })(tramObject, ratpTrafficTram);
+      }
 
 
     });
@@ -109,5 +137,5 @@ var job = function() {
 }
 
 module.exports = {
-    executeJob : job
+  executeJob : job
 };

@@ -8,7 +8,10 @@ services:
       - 80
     links:
       - mongo
-      - memcached
+      - redis
+    depends_on:
+      - mongo
+      - redis
   webb:
     build: .
     volumes:
@@ -17,7 +20,10 @@ services:
       - 80
     links:
       - mongo
-      - memcached
+      - redis
+    depends_on:
+      - mongo
+      - redis
   webc:
     build: .
     volumes:
@@ -26,7 +32,10 @@ services:
       - 80
     links:
       - mongo
-      - memcached
+      - redis
+    depends_on:
+      - mongo
+      - redis
   scheduler:
     build:
       context: .
@@ -35,15 +44,16 @@ services:
       - ./:/app
     links:
       - mongo
+    depends_on:
+      - mongo
   mongo:
     image: mongo
     ports:
-      - "27018:27017"
-  memcached:
-    image: sameersbn/memcached:latest
+      - "27017:27017"
+  redis:
+    image: redis
     ports:
-      - "11211:11211"
-    restart: always
+      - "6379:6379"
   haproxy:
     image: haproxy:latest
     build: ./dockerBuilds/haproxy
