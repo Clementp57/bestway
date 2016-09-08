@@ -42,7 +42,7 @@ serverInstance.get(API_BASE_PATH, function(req, res) {
 
 // Creating Http Server
 serverInstance.listen((process.env.PORT || 80), function(){
-    console.info('Http server running on http://localhost:' + (process.env.PORT || 80));
+    // console.info('Http server running on http://localhost:' + (process.env.PORT || 80));
 });
 
 // Benchmark test
