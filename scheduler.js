@@ -19,6 +19,8 @@ mongoose.connect("mongodb://mongo:27017/" + DATABASE_NAME, function(error) {
 
 // Jobs scheduling
 // Recurrence rules
+var recurrenceEveryThirtyMinutes = new schedule.RecurrenceRule();
+recurrenceEveryThirtyMinutes.minute = [0, 30];
 var recurrenceEveryTenMinutes = new schedule.RecurrenceRule();
 recurrenceEveryTenMinutes.minute = [0, 10, 20, 30, 40, 50];
 var recurrenceEveryTenSeconds = new schedule.RecurrenceRule();
@@ -28,7 +30,7 @@ recurrenceEverySixHours.hour = [0, 6, 12, 18];
 recurrenceEverySixHours.minute = 0;
 
 // Call weather forecast job every 6 hours
-var weatherForecastJobSchedule = schedule.scheduleJob(recurrenceEverySixHours, function(){
+var weatherForecastJobSchedule = schedule.scheduleJob(recurrenceEveryThirtyMinutes, function(){
     // debug logs
     var date = new Date();
     console.log('weatherForecastJob running @' + date);
@@ -36,7 +38,7 @@ var weatherForecastJobSchedule = schedule.scheduleJob(recurrenceEverySixHours, f
 });
 
 // Call weather forecast job every 6 hours
-var RATPTrafficJobSchedule = schedule.scheduleJob(recurrenceEveryTenSeconds, function(){
+var RATPTrafficJobSchedule = schedule.scheduleJob(recurrenceEveryTenMinutes, function(){
     // debug logs
     var date = new Date();
     console.log('RATP traffic running @' + date);
