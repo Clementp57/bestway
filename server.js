@@ -21,7 +21,7 @@ mongoose.connect("mongodb://mongo:27017/" + DATABASE_NAME, function(error) {
 
 var serverInstance = express();
 serverInstance.use(cors());
-serverInstance.use(morgan('combined'));
+// serverInstance.use(morgan('combined'));
 serverInstance.use(bodyParser.json({limit: '16mb'})); // support json encoded bodies
 serverInstance.use(bodyParser.urlencoded({
     limit: '5mb',
@@ -41,20 +41,52 @@ serverInstance.get(API_BASE_PATH, function(req, res) {
 });
 
 // Request API route
-// url sample : /api/v1/sortedTransportsLists?dep=48.856614,2.352222&arr=48.856614,2.352222&transp=1,3,4
+// url sample : /api/v1/sortedTransportsLists?dep=48.856614,2.352222&arr=48.856614,2.352222&transp=1,3,4&timestamp=1473340371&transit_mode=subway&departure_time=1473340371
+// transit_mode [bus, subway, train, tram, rail]
+// alternatives set to true if transit issues (travaux)
+
 serverInstance.get(API_BASE_PATH + '/sortedTransportsLists', function(req, res){
   var departureLocation = {latitude : req.query.dep.split(",")[0], longitude : req.query.dep.split(",")[1]};
   var arrivalLocation = {latitude : req.query.arr.split(",")[0], longitude : req.query.arr.split(",")[1]};
   var transportationsArray = req.query.transp.split(",");
-  // transportations id :
-  // 0 : marche
-  // 1 : vélo
-  // 2 : voiture
-  // 3 : transports en commun
-  // 4 : bus
+  // transportations id : cf transport variable (lower in code)
 
 
   // TODO : requêter temps de chaque trajet & traffic autour du trajet voiture/bus + créer algorithme de sorting des listes
+
+
+// travel modes :
+  // transit
+  // walking
+  // driving
+  // bicycling
+  var transportationTypesArray = [
+    {id: 0, type: "walking"},// marche
+    {id: 1, type: "bicycling"},//vélo
+    {id: 2, type: "driving"},//voiture
+    {id: 3, type: "transit", subtype: "bus"},//bus
+    {id: 4, type: "transit", subtype: "subway"},
+    {id: 5, type: "transit", subtype: "train"},
+    {id: 6, type: "transit", subtype: "tram"},
+    {id: 7, type: "transit", subtype: "rail"}
+
+  ]
+  transportationsArray.forEach(function(transportId, index, transportationsArray){
+    // console.log("id : " + transportId + " | index : " + index);
+    (function(id, transports){
+
+      var requestUrl = "https://maps.googleapis.com/maps/api/directions/json?key=AIzaSyD3MxmmqvuEMX5090XYlxTnveg-ZDlNXP0&origin=" + req.query.dep.split(",")[0] + "," + req.query.dep.split(",")[1] + "&destination=" + req.query.arr.split(",")[0] + "," + req.query.arr.split(",")[1] + "&mode=" + transports[id]["type"];
+      if(id > 2){
+        requestUrl += "&transit_mode=" + transports[id]["subtype"];
+      }
+      console.log(requestUrl);
+
+
+
+    })(transportId, transportationTypesArray);
+  });
+
+
 
   res.status(200).json({
     access: 'ok'
