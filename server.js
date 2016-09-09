@@ -10,8 +10,9 @@ var validateRequest = ('./middlewares/validateRequest'),
     routes = require('./routes/index'),
     public_routes = require('./routes/public'),
     mongodb = require('./services/mongodb'),
-    redis = require('./services/redis');
-    users = require('./routes/users');
+    redis = require('./services/redis'),
+    users = require('./routes/users'),
+    transports = require('./routes/transports');
 
 var User = require('./models/User');
 var API_BASE_PATH = "/api/v1";
@@ -30,13 +31,14 @@ serverInstance.use(bodyParser.urlencoded({
 })); // support encoded bodies
 
 // Routing
-serverInstance.all(API_BASE_PATH + '/*' , [
-    require('./middlewares/validateToken'),
-    require('./middlewares/validateRequest')
-]);
+// serverInstance.all(API_BASE_PATH + '/*' , [
+//     require('./middlewares/validateToken'),
+//     require('./middlewares/validateRequest')
+// ]);
 
 serverInstance.all('/public/*', public_routes);
 serverInstance.use(API_BASE_PATH+'/users', users);
+serverInstance.use(API_BASE_PATH+'/transports', transports);
 serverInstance.use(API_BASE_PATH, routes);
 
 // HAProxy health check
