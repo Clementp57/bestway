@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var RATPTraffic = require('../models/RATPTraffic');
 
 var mongoose = require('mongoose');
 var WeatherForecast = require('../models/WeatherForecast');
@@ -122,6 +123,12 @@ router.get('/', function(req, res){
   //   access: 'ok'
   // });
 
+});
+
+router.get('/all', function(req, res) {
+  RATPTraffic.find({}, function(err, traffic) {
+    res.status(200).json(traffic);
+  });
 });
 
 module.exports = router;
