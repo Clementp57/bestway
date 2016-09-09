@@ -11,6 +11,7 @@ var WeatherForecast = new mongoose.Schema({
         },
         pression: Number,
         humidity: Number,
+        rain: Number,
         windspeed: Number,
         clouds: Number,
         sunrise: Date,

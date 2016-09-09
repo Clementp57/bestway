@@ -20,7 +20,6 @@ var job = function() {
 
     res.on('end', function(){
         var response = JSON.parse(body);
-
         var weatherForecast = new WeatherForecast({
           main: response.weather[0].main,
           description: response.weather[0].description,
@@ -31,6 +30,7 @@ var job = function() {
           },
           pression: response.main.pressure,
           humidity: response.main.humidity,
+          rain: response.rain?response.rain["3h"]:0,
           windspeed: response.wind.speed,
           clouds: response.clouds.all,
           sunrise: response.sys.sunrise * 1000, // UNIX Timestamp
