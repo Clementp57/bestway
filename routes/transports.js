@@ -130,5 +130,10 @@ router.get('/all', function(req, res) {
     res.status(200).json(traffic);
   });
 });
+router.get('/weather', function(req, res) {
+  WeatherForecast.find({}, function(err, weather) {
+    res.status(200).json(weather);
+  });
+});
 
 module.exports = router;
