@@ -5,8 +5,7 @@ var express = require('express'),
     cors = require('cors'),
     http = require('http');
 
-var validateRequest = ('./middlewares/validateRequest'),
-    validateToken = ('./middlewares/validateToken'),
+var validateToken = require('./middlewares/validateToken'),
     routes = require('./routes/index'),
     public_routes = require('./routes/public'),
     mongodb = require('./services/mongodb'),
@@ -23,7 +22,7 @@ redis.connect(function() {});
 
 var serverInstance = express();
 serverInstance.use(cors());
-serverInstance.use(morgan('combined'));
+// serverInstance.use(morgan('combined'));
 serverInstance.use(bodyParser.json({limit: '16mb'})); // support json encoded bodies
 serverInstance.use(bodyParser.urlencoded({
     limit: '5mb',
@@ -31,15 +30,15 @@ serverInstance.use(bodyParser.urlencoded({
 })); // support encoded bodies
 
 // Routing
-// serverInstance.all(API_BASE_PATH + '/*' , [
-//     require('./middlewares/validateToken'),
-//     require('./middlewares/validateRequest')
-// ]);
+serverInstance.all(API_BASE_PATH + '/*' , [
+    require('./middlewares/validateToken')
+]);
 
 serverInstance.all('/public/*', public_routes);
 serverInstance.use(API_BASE_PATH+'/users', users);
 serverInstance.use(API_BASE_PATH+'/transports', transports);
 serverInstance.use(API_BASE_PATH, routes);
+serverInstance.use(API_BASE_PATH + '/transports', transports);
 
 // HAProxy health check
 serverInstance.get('/', function (req, res) {

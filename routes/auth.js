@@ -7,6 +7,7 @@ var auth = {
   login: function(req, res) {
     console.log(req.body.email + " Requested login. IP ["+ req.connection.remoteAddress + "]");
     var email = req.body.email || null;
+    var password = req.body.password || null;
     if(!email) {
       res.status(401);
       res.json({
@@ -22,10 +23,11 @@ var auth = {
       // and dispatch it to the client
       console.log('Delivering JWT to user:' + email);
       res.status(200);
-      var response = generateToken(dbUser);
-      registerToken(response.token, user.id);
+      var response = generateToken(user);
+      registerToken(response.token, user._id);
       res.json(response);
     }, function(error) {
+      console.log(error);
       res.status(401);
       res.json({
         "status": 401,
@@ -52,7 +54,6 @@ var auth = {
 
     }, function(){
       console.info('New user, registering');
-
       var dbUser = new User(user);
       dbUser.save(function(obj) {
         console.log('Delivering JWT to user:' + dbUser);
@@ -88,9 +89,9 @@ var auth = {
   },
 }
 
-// TODO: Insert token in Memcache
+// TODO: Insert token in Redis
 function registerToken(token, userId) {
-  redis.getInstance().set(token, userId);
+  redis.getInstance().set(token, userId.toString());
 }
 
 // private method
