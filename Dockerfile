@@ -13,7 +13,7 @@ COPY package.json /app/
 WORKDIR /app
 
 # Install app dependencies
-RUN cd app  && npm install -v
+RUN cd /app  && npm install -v
 
 # Bundle app source
 COPY . /app
