@@ -1,9 +1,9 @@
 version: "2"
 services:
   weba:
-    build: .
+    build: ./app
     volumes:
-      - ./:/app
+      - app/:/app/
       - /app/node_modules
     expose:
       - 80
@@ -16,9 +16,9 @@ services:
     # ports:
     #   - "80:80"
   webb:
-    build: .
+    build: ./app
     volumes:
-      - ./:/app
+      - app/:/app/
       - /app/node_modules
     expose:
       - 80
@@ -29,9 +29,9 @@ services:
       - mongo
       - redis
   webc:
-    build: .
+    build: ./app
     volumes:
-      - ./:/app
+      - app/:/app/
       - /app/node_modules
     expose:
       - 80
@@ -42,11 +42,12 @@ services:
       - mongo
       - redis
   scheduler:
-    build:
-      context: .
+    build: 
+      context: ./app
       dockerfile: ./dockerBuilds/scheduler/Dockerfile
     volumes:
-      - ./:/app
+      - app/:/app/
+      - /app/node_modules
     links:
       - mongo
     depends_on:
