@@ -23,7 +23,7 @@ redis.connect(function() {});
 var serverInstance = express();
 
 serverInstance.use(cors());
-// serverInstance.use(morgan('combined'));
+
 serverInstance.use(bodyParser.json({limit: '16mb'})); // support json encoded bodies
 serverInstance.use(bodyParser.urlencoded({
     limit: '5mb',
