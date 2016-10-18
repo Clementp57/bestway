@@ -3,9 +3,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
     cors = require('cors'),
-    http = require('http'),
-    argv = require('minimist')(process.argv.slice(2)),
-    swagger = require("swagger-node-express");
+    http = require('http');
 
 var validateToken = require('./middlewares/validateToken'),
     routes = require('./routes/index'),
