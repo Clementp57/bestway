@@ -11,4 +11,10 @@ router.post('/public/token/check', function(req, res) {
 	res.end();
 });
 
+
+// SWAGGER /!\ Needs his own container, we can't run 3 instances
+// router.get('/docs', function (req, res) {
+//     res.sendFile(__dirname + '/swagger/index.html');
+// });
+
 module.exports = router;

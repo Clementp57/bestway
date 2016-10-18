@@ -1,7 +1,7 @@
 var http = require('http');
 var WeatherForecast = require('../models/WeatherForecast');
 
-var APP_ID = '4e9d4ebc5251fc01330592520cba5db5'; // put in constants file$
+var APP_ID = '4e9d4ebc5251fc01330592520cba5db5'; // put in constants file
 
 
 var job = function() {

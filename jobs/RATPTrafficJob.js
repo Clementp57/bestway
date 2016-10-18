@@ -7,7 +7,7 @@ var job = function() {
     host: 'api-ratp.pierre-grimaud.fr',
     port: 80,
     path: '/v2/traffic'
-  };
+  }; 
 
   http.get(requestOptions, function(res){
     var body = '';
@@ -130,8 +130,6 @@ var job = function() {
           });
         })(tramObject, ratpTrafficTram);
       }
-
-
     });
   });
 }

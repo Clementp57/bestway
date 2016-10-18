@@ -28,6 +28,8 @@
     "mongoose": "^4.6.0",
     "morgan": "^1.7.0",
     "node-schedule": "^1.1.1",
-    "redis": "^2.6.2"
+    "redis": "^2.6.2",
+    "swagger-node-express": "~2.0",
+    "minimist": "*"
   }
 }

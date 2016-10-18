@@ -3,7 +3,9 @@ var express = require('express'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
     cors = require('cors'),
-    http = require('http');
+    http = require('http'),
+    argv = require('minimist')(process.argv.slice(2)),
+    swagger = require("swagger-node-express");
 
 var validateToken = require('./middlewares/validateToken'),
     routes = require('./routes/index'),
@@ -21,6 +23,7 @@ mongodb.connect();
 redis.connect(function() {});
 
 var serverInstance = express();
+
 serverInstance.use(cors());
 // serverInstance.use(morgan('combined'));
 serverInstance.use(bodyParser.json({limit: '16mb'})); // support json encoded bodies
@@ -38,7 +41,6 @@ serverInstance.all('/public/*', public_routes);
 serverInstance.use(API_BASE_PATH+'/users', users);
 serverInstance.use(API_BASE_PATH+'/transports', transports);
 serverInstance.use(API_BASE_PATH, routes);
-serverInstance.use(API_BASE_PATH + '/transports', transports);
 
 // HAProxy health check
 serverInstance.get('/', function (req, res) {

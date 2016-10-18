@@ -2,6 +2,7 @@ var jwt = require('jwt-simple');
 var redis = require('../services/redis');
 
 module.exports = function(req, res, next) {
+  console.log("HEADERs => ", req.headers);
   var token = req.headers['x-access-token'] || null;
   var userId = req.headers['x-user-id'] || null;
   if (token && userId) {
