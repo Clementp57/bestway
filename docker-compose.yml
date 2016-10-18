@@ -3,8 +3,7 @@ services:
   weba:
     build: .
     volumes:
-      - ./:/app
-      - /app/node_modules
+      - ./:/usr/src/app
     expose:
       - 80
     links:
@@ -18,8 +17,7 @@ services:
   webb:
     build: .
     volumes:
-      - ./:/app
-      - /app/node_modules
+      - ./:/usr/src/app
     expose:
       - 80
     links:
@@ -31,8 +29,7 @@ services:
   webc:
     build: .
     volumes:
-      - ./:/app/
-      - /app/node_modules
+      - ./:/usr/src/app
     expose:
       - 80
     links:
@@ -46,8 +43,7 @@ services:
       context: .
       dockerfile: ./dockerBuilds/scheduler/Dockerfile
     volumes:
-      - ./:/app/
-      - /app/node_modules
+      - ./:/usr/src/app
     links:
       - mongo
     depends_on:

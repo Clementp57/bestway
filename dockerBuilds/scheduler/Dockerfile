@@ -9,14 +9,16 @@ RUN curl -LO "https://nodejs.org/dist/v4.5.0/node-v4.5.0-linux-x64.tar.gz" \
 && rm node-v4.5.0-linux-x64.tar.gz
 
 # Create app directory
-ADD package.json /app/
-WORKDIR /app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY package.json /use/src/app/
 
 # Install app dependencies
 RUN npm install -v
 
 # Bundle app source
-COPY . /app
+COPY . /usr/src/app
 
 EXPOSE 5000
 CMD [ "node", "scheduler.js" ]
