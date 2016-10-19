@@ -17,6 +17,7 @@ COPY . /usr/src/app
 
 # Install app dependencies
 RUN npm install
+RUN ls -la
 
 EXPOSE 5000
 CMD [ "node", "server.js" ]
