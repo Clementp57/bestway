@@ -16,8 +16,7 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 # Install app dependencies
-RUN npm install
-RUN ls -la
+#RUN npm install
 
 EXPOSE 5000
 CMD [ "node", "server.js" ]

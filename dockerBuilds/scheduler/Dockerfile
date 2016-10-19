@@ -16,7 +16,7 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 # Install app dependencies
-RUN npm install 
+#RUN npm install 
 
 EXPOSE 5000
 CMD [ "node", "scheduler.js" ]
