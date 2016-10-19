@@ -15,6 +15,7 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
 
 # Install app dependencies
+RUN npm -v
 RUN npm install -v
 RUN ls -la node_modules
 
