@@ -17,7 +17,7 @@ COPY package.json /usr/src/app/
 # Install app dependencies
 RUN npm -v
 RUN npm install -v
-RUN ls -la node_modules
+RUN ls -la 
 
 # Bundle app source
 COPY . /usr/src/app
