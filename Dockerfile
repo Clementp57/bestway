@@ -12,15 +12,11 @@ RUN curl -LO "https://nodejs.org/dist/v4.5.0/node-v4.5.0-linux-x64.tar.gz" \
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package.json /usr/src/app/
+# Bundle app source
+COPY . /usr/src/app
 
 # Install app dependencies
 RUN npm install -v
-RUN ls -la && cat package.json
-
-# Bundle app source
-COPY . /usr/src/app
-RUN ls -la
 
 EXPOSE 5000
 CMD [ "node", "server.js" ]
