@@ -15,12 +15,12 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
 
 # Install app dependencies
-RUN npm -v
 RUN npm install -v
-RUN ls -la 
+RUN ls -la && cat package.json
 
 # Bundle app source
 COPY . /usr/src/app
+RUN ls -la
 
 EXPOSE 5000
 CMD [ "node", "server.js" ]
