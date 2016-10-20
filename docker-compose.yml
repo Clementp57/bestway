@@ -82,4 +82,4 @@ services:
      - "443"
     environment:
      - VIRTUAL_HOST=bestway.clementpeyrabere.net
-     - VIRTUAL_PORT=9999
+     - VIRTUAL_PORT=80
