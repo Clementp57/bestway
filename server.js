@@ -42,7 +42,7 @@ serverInstance.use(API_BASE_PATH, routes);
 
 // HAProxy health check
 serverInstance.get('/', function (req, res) {
-  res.send('<html><body>Hello from Node.js container </body></html>');
+  res.send('<html><body>Hello from Node JS container </body></html>');
 });
 
 // Creating Http Server
