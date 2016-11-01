@@ -66,7 +66,7 @@ router.post('/', function(req, res) {
 
 router.get('/', function(req, res){
   var departureLocation = {latitude: 48.8488247, longitude:2.3892222};//{latitude : req.query.dep.split(",")[0], longitude : req.query.dep.split(",")[1]};
-  var arrivalLocation = {latitude: 48.856614, longitude:  };//{latitude : req.query.arr.split(",")[0], longitude : req.query.arr.split(",")[1]};
+  var arrivalLocation = {latitude: 48.856614, longitude: 2.352222 };//{latitude : req.query.arr.split(",")[0], longitude : req.query.arr.split(",")[1]};
   var transportationsArray = [0,1,2,3,4];//req.query.transp.split(",");
   // transportations id -> cf transport variable (lower in code)
 
