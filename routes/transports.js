@@ -5,23 +5,72 @@ var RATPTraffic = require('../models/RATPTraffic');
 var mongoose = require('mongoose');
 var WeatherForecast = require('../models/WeatherForecast');
 
-router.post('/', function(req, res) {
-  console.log("DEPARTURE => ",req.body.departure);
-  console.log("DEPARTURE => ",req.body.arrival);
-});
+var transportationTypesArray = [
+    {id: 0, type: "walking"},// marche
+    {id: 1, type: "bicycling"},//vélo
+    {id: 2, type: "driving"},//voiture
+    {id: 3, type: "transit", subtype: "bus"},//bus
+    {id: 4, type: "transit", subtype: "subway"},//métro
+    {id: 5, type: "transit", subtype: "train"},
+    {id: 6, type: "transit", subtype: "tram"},//tram
+    {id: 7, type: "transit", subtype: "rail"}
+]
 
-router.get('/', function(req, res){
-  var departureLocation = {latitude: 48.8488247, longitude:2.3892222};//{latitude : req.query.dep.split(",")[0], longitude : req.query.dep.split(",")[1]};
-  var arrivalLocation = {latitude: 48.856614, longitude:2.352222};//{latitude : req.query.arr.split(",")[0], longitude : req.query.arr.split(",")[1]};
-  var transportationsArray = [0,1,2,3,4];//req.query.transp.split(",");
-  // transportations id -> cf transport variable (lower in code)
+router.post('/', function(req, res) {
+  var BASE_GOOGLE_MAP_URL = "https://maps.googleapis.com/maps/api/directions/json?key=AIzaSyD3MxmmqvuEMX5090XYlxTnveg-ZDlNXP0";
+  var departureLocation = JSON.parse(req.body.departure);
+  var arrivalLocation = JSON.parse(req.body.arrival);
+
+  var responseArray = [];
 
   // ALGO ---------------
-  // 1. Get time for each transport
+  // 1. Get duration for each transport
   // 2. Get last wheather forecast
   // 3. If rain, walking/bicycling last
   // 4. Sort transports on userPreferences
   // --------------------
+  
+  transportationsArray.forEach(function(transportId, index, transportationsArray){
+    (function(id, transports, i, myarray, myRes){
+      var https = require('https');
+
+      var requestURL = BASE_GOOGLE_MAP_URL;
+      requestURL += "&origin=" + departureLocation.latitude + "," + departureLocation.longitude;
+      requestURL += "&destination=" + arrivalLocation.latitude + "," + arrivalLocation.longitude
+      requestURL += "&mode=" + transports[id]["type"];
+
+      if(id > 2){ 
+        requestUrl += "&transit_mode=" + transports[id]["subtype"];
+      }
+
+      https.get(requestUrl, (res) => {
+        var json = '';
+        res.on('data', (data) => {
+          json += data;
+        }).on('end', function(){
+          var object = JSON.parse(json);
+          var result;
+          
+          if(i < 3){
+            result = {transport: transports[i].type, duration: object.routes[0].legs[0].distance.value};
+          } else {
+            result = {transport: transports[i].subtype, duration: object.routes[0].legs[0].distance.value};
+          }
+          responseArray.push(result);
+        });
+      });
+    });
+  });
+  console.log("REPONSE ARRAY =>",responseArray);
+});
+
+router.get('/', function(req, res){
+  var departureLocation = {latitude: 48.8488247, longitude:2.3892222};//{latitude : req.query.dep.split(",")[0], longitude : req.query.dep.split(",")[1]};
+  var arrivalLocation = {latitude: 48.856614, longitude:  };//{latitude : req.query.arr.split(",")[0], longitude : req.query.arr.split(",")[1]};
+  var transportationsArray = [0,1,2,3,4];//req.query.transp.split(",");
+  // transportations id -> cf transport variable (lower in code)
+
+  
 
   // TODO : requêter temps de chaque trajet & traffic autour du trajet voiture/bus + créer algorithme de sorting des listes
   var responseArray = [];
