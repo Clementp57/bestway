@@ -4,14 +4,24 @@ var RATPTraffic = require('../models/RATPTraffic');
 
 var mongoose = require('mongoose');
 var WeatherForecast = require('../models/WeatherForecast');
-// Request API route
-// url sample : /api/v1/sortedTransportsLists?dep=48.856614,2.352222&arr=48.856614,2.352222&transp=1,3,4
+
+router.post('/', function(req, res) {
+  console.log("DEPARTURE => ",req.body.departure);
+  console.log("DEPARTURE => ",req.body.arrival);
+});
+
 router.get('/', function(req, res){
   var departureLocation = {latitude: 48.8488247, longitude:2.3892222};//{latitude : req.query.dep.split(",")[0], longitude : req.query.dep.split(",")[1]};
   var arrivalLocation = {latitude: 48.856614, longitude:2.352222};//{latitude : req.query.arr.split(",")[0], longitude : req.query.arr.split(",")[1]};
   var transportationsArray = [0,1,2,3,4];//req.query.transp.split(",");
   // transportations id -> cf transport variable (lower in code)
 
+  // ALGO ---------------
+  // 1. Get time for each transport
+  // 2. Get last wheather forecast
+  // 3. If rain, walking/bicycling last
+  // 4. Sort transports on userPreferences
+  // --------------------
 
   // TODO : requêter temps de chaque trajet & traffic autour du trajet voiture/bus + créer algorithme de sorting des listes
   var responseArray = [];

@@ -23,6 +23,7 @@ router.get('/', function(req, res) {
         res.status(200).json(users);
     });
 });
+
 /* POST /users  */
 router.post('/', function(req, res) {
     var user = new User(req.body);
@@ -32,6 +33,7 @@ router.post('/', function(req, res) {
         res.json(200, err);
     });
 });
+
 /* GET /users/id */
 router.get('/:id', function(req, res) {
     // http://mongoosejs.com/docs/api.html#model_Model.findById

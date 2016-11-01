@@ -40,7 +40,7 @@ var job = function() {
         weatherForecast.save(function(error, createdObject) {
           if(error) {
             console.log("Error saving weather forecast : ", error);
-          } else {
+          } else { 
             console.log("Done saving weather forecast : ", createdObject);
           }
         });
