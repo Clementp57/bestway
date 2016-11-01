@@ -56,15 +56,15 @@ services:
     image: redis
     ports:
       - "6379:6379"
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    container_name: nginx-proxy
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    expose:
-      - "80"
+  # nginx-proxy:
+  #   image: jwilder/nginx-proxy
+  #   container_name: nginx-proxy
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+  #   expose:
+  #     - "80"
   haproxy:
     image: haproxy:latest
     build: ./dockerBuilds/haproxy
@@ -72,10 +72,10 @@ services:
      - weba
      - webb
      - webc
-    # ports:
-    #  - "443:443" 
-    #  - "80:80"
-    #  - "70:70"
+    ports:
+     - "443:443" 
+     - "80:80"
+     - "70:70"
     expose:
      - "80"
      - "70"

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var RATPTraffic = require('../models/RATPTraffic');
+var https = require('https');
 
 var mongoose = require('mongoose');
 var WeatherForecast = require('../models/WeatherForecast');
@@ -18,32 +19,33 @@ var transportationTypesArray = [
 
 router.post('/', function(req, res) {
   var BASE_GOOGLE_MAP_URL = "https://maps.googleapis.com/maps/api/directions/json?key=AIzaSyD3MxmmqvuEMX5090XYlxTnveg-ZDlNXP0";
-  var departureLocation = JSON.parse(req.body.departure);
-  var arrivalLocation = JSON.parse(req.body.arrival);
+  var departureLocation = req.body.departure;
+  var arrivalLocation = req.body.arrival;
 
   var responseArray = [];
-
+  var transportationsArray = [0,1,2,3,4]; // ??
+  var count = 0;
   // ALGO ---------------
   // 1. Get duration for each transport
   // 2. Get last wheather forecast
   // 3. If rain, walking/bicycling last
   // 4. Sort transports on userPreferences
   // --------------------
+
   
   transportationsArray.forEach(function(transportId, index, transportationsArray){
     (function(id, transports, i, myarray, myRes){
-      var https = require('https');
-
       var requestURL = BASE_GOOGLE_MAP_URL;
       requestURL += "&origin=" + departureLocation.latitude + "," + departureLocation.longitude;
       requestURL += "&destination=" + arrivalLocation.latitude + "," + arrivalLocation.longitude
       requestURL += "&mode=" + transports[id]["type"];
 
       if(id > 2){ 
-        requestUrl += "&transit_mode=" + transports[id]["subtype"];
+        requestURL += "&transit_mode=" + transports[id]["subtype"];
       }
 
-      https.get(requestUrl, (res) => {
+      console.log("REQUEST URL => ", requestURL);
+      https.get(requestURL, (res) => {
         var json = '';
         res.on('data', (data) => {
           json += data;
@@ -57,11 +59,18 @@ router.post('/', function(req, res) {
             result = {transport: transports[i].subtype, duration: object.routes[0].legs[0].distance.value};
           }
           responseArray.push(result);
+          count++;
+          console.log(count);
+
+          if(count >= 5){
+            console.log("REPONSE ARRAY =>",responseArray);
+          }
+        }).on('error', (error) => {
+          console.log("error", error);
         });
       });
-    });
+    })(transportId, transportationTypesArray, index, responseArray, res);
   });
-  console.log("REPONSE ARRAY =>",responseArray);
 });
 
 router.get('/', function(req, res){

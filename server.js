@@ -32,7 +32,7 @@ serverInstance.use(bodyParser.urlencoded({
 
 // Routing
 serverInstance.all(API_BASE_PATH + '/*' , [
-    require('./middlewares/validateToken')
+    //require('./middlewares/validateToken')
 ]);
 
 serverInstance.all('/public/*', public_routes);
