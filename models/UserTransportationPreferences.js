@@ -10,4 +10,4 @@ var UserTransportationPreferences = new mongoose.Schema({
         car: Boolean
     });
 
-module.exports = mongoose.model('User', User);
+module.exports = mongoose.model('UserTransportationPreferences', UserTransportationPreferences);
