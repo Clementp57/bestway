@@ -78,14 +78,17 @@ router.post('/', function (req, res) {
   });
 
   promise.then(function () {
-    //         UserTransportationPreferences.findOne({ 'userId': req.headers['x-user-id'] }, 'bike  bus walk subway car', function (err, preference) {
-    //           if (err || !preference) {
-    //             // No preferences
+    var lastWeatherRecord = WeatherForecast.find().limit(1).sort({$natural:-1});
+    console.log("Last weather record => ", lastWeatherRecord);
 
-    //           } else {
+      // UserTransportationPreferences.findOne({ 'userId': req.headers['x-user-id'] }, 'bike  bus walk subway car', function (err, preference) {
+      //   if (err || !preference) {
+      //     // No preferences
 
-    //           }
-    //         });
+      //   } else {
+          
+      //   }
+      // });
     // TMP
     for (var k = 0; k < responseArray.length; k++) {
       if (responseArray[k].transport == "walking") {
