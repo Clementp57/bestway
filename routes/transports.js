@@ -32,8 +32,6 @@ function getTransportationInformations(transportType, transportSubtype, departur
   }
   requestURL += "&mode=" + transport;
 
-  console.log(requestURL);
-
   return new Promise(function (resolve, reject) {
     https.get(requestURL, (res) => {
       var json = '';
@@ -69,7 +67,6 @@ router.post('/', function (req, res) {
   var promise = new Promise((resolve, reject) => { resolve(null) });
   transportationTypesArray.forEach(function (transportId, index) {
     promise = promise.then(function (res) {
-      console.log("res => ", res);
       if (res != null) {
         responseArray.push(res);
       }
@@ -80,7 +77,7 @@ router.post('/', function (req, res) {
   promise.then(function () {
     WeatherForecast.find().sort({$natural:-1}).limit(1, function(err, wf) {
       if(err || wf == null) {
-
+        console.log("Dammit => ", e, wf);
       } else {
         console.log("Ouloulou => ", wf);        
       }
