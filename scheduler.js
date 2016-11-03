@@ -8,12 +8,16 @@ var DATABASE_NAME = "bestway";
 var API_BASE_PATH = "/api/v1";
 
 // TODO: put this in a db.js file
-mongoose.connect("mongodb://mongo:27017/" + DATABASE_NAME, function(error) {
-  if(error) {
+mongoose.connect("mongodb://mongo:27017/" + DATABASE_NAME, function (error) {
+  if (error) {
     console.log('Failed to connect mongod instance, please check mongodb is installed on your system and mongod instance is running on port 27017');
     console.error('Error:' + error);
   } else {
     console.log('Mongodb connection established');
+
+    // Execute jobs on scheduler startup
+    weatherForecastJob.executeJob();
+    RATPTrafficJob.executeJob();
   }
 });
 
@@ -29,18 +33,20 @@ var recurrenceEverySixHours = new schedule.RecurrenceRule();
 recurrenceEverySixHours.hour = [0, 6, 12, 18];
 recurrenceEverySixHours.minute = 0;
 
-// Call weather forecast job every 6 hours
-var weatherForecastJobSchedule = schedule.scheduleJob(recurrenceEveryThirtyMinutes, function(){
-    // debug logs
-    var date = new Date();
-    console.log('weatherForecastJob running @' + date);
-    weatherForecastJob.executeJob();
+// Call weather forecast job every 30 minutes
+var weatherForecastJobSchedule = schedule.scheduleJob(recurrenceEveryThirtyMinutes, function () {
+  // debug logs
+  var date = new Date();
+  console.log('weatherForecastJob running @' + date);
+  weatherForecastJob.executeJob();
 });
 
-// Call weather forecast job every 6 hours
-var RATPTrafficJobSchedule = schedule.scheduleJob(recurrenceEveryTenMinutes, function(){
-    // debug logs
-    var date = new Date();
-    console.log('RATP traffic running @' + date);
-    RATPTrafficJob.executeJob();
+// Call weather forecast job every 10 minutes
+var RATPTrafficJobSchedule = schedule.scheduleJob(recurrenceEveryTenMinutes, function () {
+  // debug logs
+  var date = new Date();
+  console.log('RATP traffic running @' + date);
+  RATPTrafficJob.executeJob();
 });
+
+
