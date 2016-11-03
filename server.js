@@ -19,7 +19,7 @@ var API_BASE_PATH = "/api/v1";
 
 // Connecting to databases
 mongodb.connect();
-redis.connect(function() {});
+redis.connect();
 
 var serverInstance = express();
 

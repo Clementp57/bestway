@@ -1,5 +1,6 @@
 var http = require('http');
 var WeatherForecast = require('../models/WeatherForecast');
+var redis = require('../services/redis');
 
 var APP_ID = '4e9d4ebc5251fc01330592520cba5db5'; // put in constants file
 
@@ -37,12 +38,10 @@ var job = function() {
           sunset: response.sys.sunset * 1000
         });
 
-        weatherForecast.save(function(error, createdObject) {
-          if(error) {
-            console.log("Error saving weather forecast : ", error);
-          } else { 
-            console.log("Done saving weather forecast : ", createdObject);
-          }
+        console.log('trying to save');
+        redis.getInstance().then((redisInstance) => {
+          redisInstance.set("LAST_WEATHER_FORECAST", JSON.stringify(weatherForecast))
+          console.log("Done saving weather forecast : ", weatherForecast);
         });
     });
   });

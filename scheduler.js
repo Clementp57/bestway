@@ -1,24 +1,19 @@
 var mongoose = require('mongoose');
 var schedule = require('node-schedule');
+var redis = require('./services/redis');
 
 var weatherForecastJob = require('./jobs/weatherForecastJob');
 var RATPTrafficJob = require('./jobs/RATPTrafficJob');
 
-var DATABASE_NAME = "bestway";
-var API_BASE_PATH = "/api/v1";
-
-// TODO: put this in a db.js file
-mongoose.connect("mongodb://mongo:27017/" + DATABASE_NAME, function (error) {
-  if (error) {
-    console.log('Failed to connect mongod instance, please check mongodb is installed on your system and mongod instance is running on port 27017');
-    console.error('Error:' + error);
-  } else {
-    console.log('Mongodb connection established');
+redis.connect().then(() => {
+  console.log("redis connected")
+  redis.getInstance().then((redisInstance) => {
+    console.log("Got redis instance, running jobs..");
 
     // Execute jobs on scheduler startup
     weatherForecastJob.executeJob();
     RATPTrafficJob.executeJob();
-  }
+  });
 });
 
 // Jobs scheduling

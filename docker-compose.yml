@@ -46,8 +46,10 @@ services:
       - ./:/usr/src/app
     links:
       - mongo
+      - redis
     depends_on:
       - mongo
+      - redis
   mongo:
     image: mongo
     ports:

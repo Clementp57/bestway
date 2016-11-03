@@ -17,19 +17,21 @@ module.exports = function(req, res, next) {
         });
         return;
       } else {
-        var associatedUserId = redis.getInstance().get(token,
-          function(err, reply) {
-            if(err) {
-              console.error('Failed getting token from redis :' + error);
-              res.status(500);
-              res.json({
-                "status": 500,
-                "message": "Oops something went wrong",
-                "error": error
-              });
-            } else if(reply == userId) {
-              return next();
-            }
+        var associatedUserId = redis.getInstance().then((redisInstance) => {
+          redisInstance.get(token,
+            function(err, reply) {
+              if(err) {
+                console.error('Failed getting token from redis :' + error);
+                res.status(500);
+                res.json({
+                  "status": 500,
+                  "message": "Oops something went wrong",
+                  "error": error
+                });
+              } else if(reply == userId) {
+                return next();
+              }
+         });
         });
       }
 

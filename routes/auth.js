@@ -91,7 +91,9 @@ var auth = {
 
 // TODO: Insert token in Redis
 function registerToken(token, userId) {
-  redis.getInstance().set(token, userId.toString());
+  redis.getInstance().then((redisInstance) => {
+    redisInstance.set(token, userId.toString());
+  });
 }
 
 // private method
