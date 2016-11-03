@@ -78,8 +78,14 @@ router.post('/', function (req, res) {
   });
 
   promise.then(function () {
-    var lastWeatherRecord = WeatherForecast.find().limit(1).sort({$natural:-1});
-    console.log("Last weather record => ", lastWeatherRecord);
+    WeatherForecast.find().sort({$natural:-1}).limit(1, function(err, wf) {
+      if(err || wf == null) {
+
+      } else {
+        console.log("Ouloulou => ", wf);        
+      }
+    });
+    
 
       // UserTransportationPreferences.findOne({ 'userId': req.headers['x-user-id'] }, 'bike  bus walk subway car', function (err, preference) {
       //   if (err || !preference) {

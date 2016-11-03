@@ -11,6 +11,7 @@ var validateToken = require('./middlewares/validateToken'),
     mongodb = require('./services/mongodb'),
     redis = require('./services/redis'),
     users = require('./routes/users'),
+    userPreferences = require('./routes/userPreferences'),
     transports = require('./routes/transports');
 
 var User = require('./models/User');
@@ -37,6 +38,7 @@ serverInstance.all(API_BASE_PATH + '/*' , [
 
 serverInstance.all('/public/*', public_routes);
 serverInstance.use(API_BASE_PATH+'/users', users);
+serverInstance.use(API_BASE_PATH+'/userPreferences', userPreferences);
 serverInstance.use(API_BASE_PATH+'/transports', transports);
 serverInstance.use(API_BASE_PATH, routes);
 
