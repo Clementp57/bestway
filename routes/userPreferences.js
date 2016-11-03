@@ -17,7 +17,7 @@ router.post('/' , function(req, res) {
 });
 
 router.put('/', function(req, res) {
-  UserTransportationPreferences.findOne({ 'userId', req.body.userId },function(err, userPrefs) {
+  UserTransportationPreferences.findOne({ 'userId': req.body.userId },function(err, userPrefs) {
       userPrefs.bike = req.body.bike;
       userPrefs.bus = req.body.bus;
       userPrefs.walk = req.body.walk;
