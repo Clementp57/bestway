@@ -31,6 +31,7 @@
     "node-schedule": "^1.1.1",
     "nodemailer": "^2.6.4",
     "redis": "^2.6.2",
-    "swagger-node-express": "~2.0"
+    "swagger-node-express": "~2.0",
+    "winston": "^2.3.0"
   }
 }

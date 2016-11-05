@@ -1,10 +1,8 @@
 var http = require('http');
-var WeatherForecast = require('../models/WeatherForecast');
 var redis = require('../services/redis');
 var mailer = require('../services/mailer');
 
 var APP_ID = '4e9d4ebc5251fc01330592520cba5db5'; // put in constants file
-
 
 var job = () => {
     var requestOptions = {
@@ -24,7 +22,7 @@ var job = () => {
             try {
                 var response = JSON.parse(body);
 
-                var weatherForecast = new WeatherForecast({
+                var weatherForecast = {
                     main: response.weather[0].main,
                     description: response.weather[0].description,
                     temperature: {
@@ -39,12 +37,10 @@ var job = () => {
                     clouds: response.clouds.all,
                     sunrise: response.sys.sunrise * 1000, // UNIX Timestamp
                     sunset: response.sys.sunset * 1000
-                });
+                };
 
-                console.log('trying to save');
                 redis.getInstance().then((redisInstance) => {
                     redisInstance.set("LAST_WEATHER_FORECAST", JSON.stringify(weatherForecast))
-                    console.log("Done saving weather forecast : ", weatherForecast);
                 });
 
             } catch (error) {

@@ -8,6 +8,7 @@ var UserTransportationPreferences = require('../models/UserTransportationPrefere
 router.post('/' , (req, res) => {
     console.log("request body:", req.body);
     var userTransportationPreferences = new UserTransportationPreferences(req.body);
+    userTransportationPreferences.userId = req.headers['x-user-id'];
     userTransportationPreferences.save((error, userPrefs) => {
       console.log('done saving userTransportationPreferences :', userPrefs);
       res.status(200).json({

@@ -7,7 +7,9 @@ var UserTransportationPreferences = new mongoose.Schema({
     bus: Boolean,
     walking: Boolean,
     subway: Boolean,
-    driving: Boolean
+    driving: Boolean,
+    tram : Boolean,
+    train: Boolean
 });
 
 module.exports = mongoose.model('UserTransportationPreferences', UserTransportationPreferences);

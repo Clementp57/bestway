@@ -12,7 +12,9 @@ var validateToken = require('./middlewares/validateToken'),
     redis = require('./services/redis'),
     users = require('./routes/users'),
     userPreferences = require('./routes/userPreferences'),
-    transports = require('./routes/transports');
+    transports = require('./routes/transports'),
+    winston = require('winston');
+
 
 var User = require('./models/User');
 var API_BASE_PATH = "/api/v1";
@@ -49,5 +51,5 @@ serverInstance.get('/', (req, res) => {
 
 // Creating Http Server
 serverInstance.listen((process.env.PORT || 80), () => {
-    console.info('Http server running on http://localhost:' + (process.env.PORT || 80));
+    console.info('HTTP Server Instance up & running');
 });
