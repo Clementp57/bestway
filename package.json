@@ -29,6 +29,7 @@
     "mongoose": "^4.6.4",
     "morgan": "^1.7.0",
     "node-schedule": "^1.1.1",
+    "nodemailer": "^2.6.4",
     "redis": "^2.6.2",
     "swagger-node-express": "~2.0"
   }

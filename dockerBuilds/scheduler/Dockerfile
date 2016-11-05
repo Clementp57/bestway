@@ -19,4 +19,4 @@ COPY . /usr/src/app
 #RUN npm install 
 
 EXPOSE 5000
-CMD [ "node", "scheduler.js" ]
+CMD [ "node", "src/scheduler.js" ]
