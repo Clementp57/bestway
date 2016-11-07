@@ -1,3 +1,3 @@
 FROM haproxy:latest
 COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
-COPY localhost.pem /etc/ssl/bestway/localhost.pem
+COPY bestway.clementpeyrabere.net.pem /etc/ssl/bestway/bestway.clementpeyrabere.net.pem
