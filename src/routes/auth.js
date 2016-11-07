@@ -71,6 +71,7 @@ var auth = {
     var token = req.headers['x-access-token'] || null;
     var userId = req.headers['x-user-id'] || null;
     if (token && userId) {
+      console.log(token, userId);
       try {
         console.log('trying to decode token');
         var decoded = jwt.decode(token, secret.getTokenSecret());
@@ -106,6 +107,7 @@ var auth = {
           });
         }
       } catch (error) {
+        console.log("error => ", error);
         res.status(500);
         res.json({
           "status": 500,
