@@ -6,10 +6,10 @@ var secret = require('../../config/secret');
 var auth = {
 
   login: (req, res) => {
-    console.log(req.body.email + " Requested login. IP ["+ req.connection.remoteAddress + "]");
+    console.log(req.body.email + " Requested login. IP [" + req.connection.remoteAddress + "]");
     var email = req.body.email || null;
     var password = req.body.password || null;
-    if(!email) {
+    if (!email) {
       res.status(401);
       res.json({
         "status": 401,
@@ -42,7 +42,7 @@ var auth = {
     // console.log('Registering', JSON.parse(req.body));
     var user = req.body;
 
-    if(!user.email || !user.password) {
+    if (!user.email || !user.password) {
       res.status(401);
       res.json({
         "status": 401,
@@ -67,12 +67,62 @@ var auth = {
 
   },
 
+  tokenCheck: (req, res) => {
+    var token = req.headers['x-access-token'] || null;
+    var userId = req.headers['x-user-id'] || null;
+    if (token && userId) {
+      try {
+        console.log('trying to decode token');
+        var decoded = jwt.decode(token, secret.getTokenSecret());
+        if (decoded.exp <= Date.now()) {
+          res.status(401);
+          res.json({
+            "status": 401,
+            "message": "Token Expired"
+          });
+          return;
+        } else {
+          // Tken exp date ok
+          var associatedUserId = redis.getInstance().then((redisInstance) => {
+            redisInstance.get(token,
+              (err, reply) => {
+                if (err) {
+                  console.error('Failed getting token from redis :' + error);
+                  res.status(500);
+                  res.json({
+                    "status": 500,
+                    "message": "Oops something went wrong",
+                    "error": error
+                  });
+                  return;
+                } else if (reply == userId) {
+                  res.status(200).json({
+                    "status": 200,
+                    "msg": "ok"
+                  });
+                  return;
+                }
+              });
+          });
+        }
+      } catch (exception) {
+        res.status(500);
+        res.json({
+          "status": 500,
+          "message": "Oops something went wrong",
+          "error": error
+        });
+        return;
+      }
+    }
+  },
+
   validate: (email, password, successCallback, errorCallback) => {
-    if(!email) {
+    if (!email) {
       return errorCallback();
     }
-    User.findOne({ 'email' : email }, 'password id', (err, user) => {
-      if(err || !user || (user.password != password)) {
+    User.findOne({ 'email': email }, 'password id', (err, user) => {
+      if (err || !user || (user.password != password)) {
         return errorCallback(err);
       } else {
         return successCallback(user);
