@@ -6,7 +6,7 @@ var auth = require('./auth.js');
 router.post('/public/login', auth.login);
 router.post('/public/register', auth.register);
 router.post('/public/tokenCheck', (req, res) => {
-	require('../middlewares/validateToken')();
+	require('../middlewares/validateToken')(req,res);
 	console.log("TOKEN OK");
 	res.status(200).json({
 		"msg" : "token ok"
