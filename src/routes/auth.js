@@ -82,7 +82,7 @@ var auth = {
           });
           return;
         } else {
-          // Tken exp date ok
+          // Token exp date ok
           var associatedUserId = redis.getInstance().then((redisInstance) => {
             redisInstance.get(token,
               (err, reply) => {
@@ -105,12 +105,12 @@ var auth = {
               });
           });
         }
-      } catch (exception) {
+      } catch (error) {
         res.status(500);
         res.json({
           "status": 500,
-          "message": "Oops something went wrong",
-          "error": exception
+          "message": "Unable to decode token",
+          "error": error
         });
         return;
       }
