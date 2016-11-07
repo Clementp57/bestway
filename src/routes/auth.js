@@ -110,7 +110,7 @@ var auth = {
         res.json({
           "status": 500,
           "message": "Oops something went wrong",
-          "error": error
+          "error": exception
         });
         return;
       }
