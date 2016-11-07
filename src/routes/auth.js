@@ -73,7 +73,6 @@ var auth = {
     if (token && userId) {
       console.log(token, userId);
       try {
-        console.log('trying to decode token');
         var decoded = jwt.decode(token, secret.getTokenSecret());
         if (decoded.exp <= Date.now()) {
           res.status(401);
@@ -98,7 +97,7 @@ var auth = {
                   return;
                 } else if (reply == userId) {
                   res.status(200).json({
-                    "status": 401,
+                    "status": 200,
                     "msg": "ok"
                   });
                   return;
