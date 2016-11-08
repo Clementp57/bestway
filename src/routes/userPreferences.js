@@ -12,11 +12,11 @@ router.post('/', (req, res) => {
       var userTransportationPreferences = new UserTransportationPreferences(req.body);
       userTransportationPreferences.userId = req.headers['x-user-id'];
       userTransportationPreferences.save((error, userPrefs) => {
-        if(error) {
+        if (error) {
           res.status(500).json({
             error: error
           });
-        } else {
+        } else  {
           console.log('done saving userTransportationPreferences :', userPrefs);
           res.status(200).json({
             msg: 'done'
@@ -24,24 +24,25 @@ router.post('/', (req, res) => {
         }
       });
     } else {
-      userPreferences.bike = req.body.bike;
+      userPreferences.bicycling = req.body.bike;
       userPreferences.bus = req.body.bus;
-      userPreferences.walk = req.body.walk;
+      userPreferences.walking = req.body.walk;
       userPreferences.subway = req.body.subway;
-      userPreferences.car = req.body.car;
+      userPreferences.driving = req.body.car;
+      userPreferences.tram = req.body.tram;
+      userPreferences.train = req.body.train;
       // http://mongoosejs.com/docs/api.html#model_Model-save
       userPreferences.save((error, userPreferences) => {
-        if(error) {
+        if (error) {
           res.status(500).json({
             error: error
           });
-        } else {
+        } else  {
           res.json(200, userPreferences);
         }
       });
     }
   });
-
 });
 
 router.get('/', (req, res) => {
@@ -60,14 +61,16 @@ router.get('/', (req, res) => {
 });
 
 router.put('/', (req, res) => {
-  UserTransportationPreferences.findOne({ 'userId': req.body.userId }, (err, userPrefs) => {
-    userPrefs.bike = req.body.bike;
-    userPrefs.bus = req.body.bus;
-    userPrefs.walk = req.body.walk;
-    userPrefs.subway = req.body.subway;
-    userPrefs.car = req.body.car;
+  UserTransportationPreferences.findOne({ 'userId': req.body.userId }, (err, userPreferences) => {
+    userPreferences.bicycling = req.body.bike;
+    userPreferences.bus = req.body.bus;
+    userPreferences.walking = req.body.walk;
+    userPreferences.subway = req.body.subway;
+    userPreferences.driving = req.body.car;
+    userPreferences.tram = req.body.tram;
+    userPreferences.train = req.body.train;
     // http://mongoosejs.com/docs/api.html#model_Model-save
-    userPrefs.save((err, userPrefs) => {
+    userPreferences.save((err, userPrefs) => {
       res.json(200, userPrefs);
     });
   });
