@@ -12,10 +12,16 @@ router.post('/', (req, res) => {
       var userTransportationPreferences = new UserTransportationPreferences(req.body);
       userTransportationPreferences.userId = req.headers['x-user-id'];
       userTransportationPreferences.save((error, userPrefs) => {
-        console.log('done saving userTransportationPreferences :', userPrefs);
-        res.status(200).json({
-          msg: 'done'
-        });
+        if(error) {
+          res.status(500).json({
+            error: error
+          });
+        } else {
+          console.log('done saving userTransportationPreferences :', userPrefs);
+          res.status(200).json({
+            msg: 'done'
+          });
+        }
       });
     } else {
       userPreferences.bike = req.body.bike;
