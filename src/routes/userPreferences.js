@@ -24,11 +24,11 @@ router.post('/', (req, res) => {
         }
       });
     } else {
-      userPreferences.bicycling = req.body.bike;
+      userPreferences.bicycling = req.body.bicycling;
       userPreferences.bus = req.body.bus;
-      userPreferences.walking = req.body.walk;
+      userPreferences.walking = req.body.walking;
       userPreferences.subway = req.body.subway;
-      userPreferences.driving = req.body.car;
+      userPreferences.driving = req.body.driving;
       userPreferences.tram = req.body.tram;
       userPreferences.train = req.body.train;
       // http://mongoosejs.com/docs/api.html#model_Model-save
