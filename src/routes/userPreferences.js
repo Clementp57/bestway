@@ -48,9 +48,13 @@ router.post('/', (req, res) => {
 router.get('/', (req, res) => {
   var userId = req.headers['x-user-id'];
   UserTransportationPreferences.findOne({ 'userId': userId }, (err, userPreferences) => {
-    if (err || !userPreferences) {
+    if (!userPreferences) {
       res.status(418).json({
         "msg": "I am a teapot ! User preferences not found"
+      });
+    } else  if(err) {
+       res.status(500).json({
+        "msg": "Server Internal Error : " + err
       });
     } else {
       res.status(200).json({
