@@ -5,35 +5,19 @@ var mongoose = require('mongoose');
 var UserTransportationPreferences = require('../models/UserTransportationPreferences.js');
 
 // Benchmark test
-router.post('/' , (req, res) => {
-    console.log("request body:", req.body);
-    var userTransportationPreferences = new UserTransportationPreferences(req.body);
-    userTransportationPreferences.userId = req.headers['x-user-id'];
-    userTransportationPreferences.save((error, userPrefs) => {
-      console.log('done saving userTransportationPreferences :', userPrefs);
-      res.status(200).json({
-        msg: 'done'
-      });
-    });
-});
-
-router.get('/', (req, res) => {
-    var userId = req.headers['x-user-id'];
-    UserTransportationPreferences.findOne({ 'userId': userId }, (err, userPreferences) => {
-      if (err || !userPreferences) {
-        res.status(418).json({
-          "msg": "I am a teapot ! User preferences not found"
-        });
-      } else {
+router.post('/', (req, res) => {
+  var userId = req.headers['x-user-id'];
+  UserTransportationPreferences.findOne({ 'userId': userId }, (err, userPreferences) => {
+    if (err || !userPreferences) {
+      var userTransportationPreferences = new UserTransportationPreferences(req.body);
+      userTransportationPreferences.userId = req.headers['x-user-id'];
+      userTransportationPreferences.save((error, userPrefs) => {
+        console.log('done saving userTransportationPreferences :', userPrefs);
         res.status(200).json({
-          userPreferences: userPreferences
+          msg: 'done'
         });
-      }
-    });
-});
-
-router.put('/',(req, res) => {
-  UserTransportationPreferences.findOne({ 'userId': req.body.userId }, (err, userPrefs) => {
+      });
+    } else {
       userPrefs.bike = req.body.bike;
       userPrefs.bus = req.body.bus;
       userPrefs.walk = req.body.walk;
@@ -41,8 +25,39 @@ router.put('/',(req, res) => {
       userPrefs.car = req.body.car;
       // http://mongoosejs.com/docs/api.html#model_Model-save
       userPrefs.save((err, userPrefs) => {
-          res.json(200, userPrefs);
+        res.json(200, userPrefs);
       });
+    }
+  });
+
+});
+
+router.get('/', (req, res) => {
+  var userId = req.headers['x-user-id'];
+  UserTransportationPreferences.findOne({ 'userId': userId }, (err, userPreferences) => {
+    if (err || !userPreferences) {
+      res.status(418).json({
+        "msg": "I am a teapot ! User preferences not found"
+      });
+    } else {
+      res.status(200).json({
+        userPreferences: userPreferences
+      });
+    }
+  });
+});
+
+router.put('/', (req, res) => {
+  UserTransportationPreferences.findOne({ 'userId': req.body.userId }, (err, userPrefs) => {
+    userPrefs.bike = req.body.bike;
+    userPrefs.bus = req.body.bus;
+    userPrefs.walk = req.body.walk;
+    userPrefs.subway = req.body.subway;
+    userPrefs.car = req.body.car;
+    // http://mongoosejs.com/docs/api.html#model_Model-save
+    userPrefs.save((err, userPrefs) => {
+      res.json(200, userPrefs);
+    });
   });
 });
 
