@@ -19,7 +19,7 @@ router.post('/' , (req, res) => {
 
 router.get('/', (req, res) => {
     var userId = req.headers['x-user-id'];
-    UserTransportationPreferences.findOne({ 'userId': emauserIdil }, (err, userPreferences) => {
+    UserTransportationPreferences.findOne({ 'userId': userId }, (err, userPreferences) => {
       if (err || !userPreferences) {
         res.status(418).json({
           "msg": "I am a teapot ! User preferences not found"
