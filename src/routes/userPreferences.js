@@ -18,14 +18,14 @@ router.post('/', (req, res) => {
         });
       });
     } else {
-      userPrefs.bike = req.body.bike;
-      userPrefs.bus = req.body.bus;
-      userPrefs.walk = req.body.walk;
-      userPrefs.subway = req.body.subway;
-      userPrefs.car = req.body.car;
+      userPreferences.bike = req.body.bike;
+      userPreferences.bus = req.body.bus;
+      userPreferences.walk = req.body.walk;
+      userPreferences.subway = req.body.subway;
+      userPreferences.car = req.body.car;
       // http://mongoosejs.com/docs/api.html#model_Model-save
-      userPrefs.save((err, userPrefs) => {
-        res.json(200, userPrefs);
+      userPreferences.save((err, userPreferences) => {
+        res.json(200, userPreferences);
       });
     }
   });
