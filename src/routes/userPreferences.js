@@ -30,8 +30,14 @@ router.post('/', (req, res) => {
       userPreferences.subway = req.body.subway;
       userPreferences.car = req.body.car;
       // http://mongoosejs.com/docs/api.html#model_Model-save
-      userPreferences.save((err, userPreferences) => {
-        res.json(200, userPreferences);
+      userPreferences.save((error, userPreferences) => {
+        if(error) {
+          res.status(500).json({
+            error: error
+          });
+        } else {
+          res.json(200, userPreferences);
+        }
       });
     }
   });
