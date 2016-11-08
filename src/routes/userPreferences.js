@@ -17,6 +17,21 @@ router.post('/' , (req, res) => {
     });
 });
 
+router.get('/', (req, res) => {
+    var userId = req.headers['x-user-id'];
+    UserTransportationPreferences.findOne({ 'userId': emauserIdil }, (err, userPreferences) => {
+      if (err || !userPreferences) {
+        res.status(418).json({
+          "msg": "I am a teapot ! User preferences not found"
+        });
+      } else {
+        res.status(200).json({
+          userPreferences: userPreferences
+        });
+      }
+    });
+});
+
 router.put('/',(req, res) => {
   UserTransportationPreferences.findOne({ 'userId': req.body.userId }, (err, userPrefs) => {
       userPrefs.bike = req.body.bike;
