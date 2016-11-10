@@ -50,24 +50,10 @@ services:
     image: mongo
     expose: 
       - 27017
-    #ports:
-    #  - "27017:27017"
   redis:
     image: redis
     expose:
       - 6379
-   # ports:
-   #   - "6379:6379"
-  # Comment this section (eg: 'nginx-proxy') to run server locally without nginx proxying to vhost + 'ports'
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    container_name: nginx-proxy
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    #expose:
-    #  - "80"
   haproxy:
     image: haproxy:latest
     build: ./dockerBuilds/haproxy
@@ -75,13 +61,6 @@ services:
      - weba
      - webb
      - webc
-    # Uncomment this section (eg: 'ports') to run server locally without nginx proxying to vhost
     ports:
-     #- "443:443" 
+     - "443:443" 
      - "70:8081"
-    #expose:
-    # - "70"
-    # - "443"
-    environment:
-     - VIRTUAL_HOST=bestway.clementpeyrabere.net
-     - VIRTUAL_PORT=443
