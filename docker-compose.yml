@@ -5,7 +5,7 @@ services:
     volumes:
       - ./:/usr/src/app
     expose:
-      - 80
+      #- 80
     links:
       - mongo
       - redis
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./:/usr/src/app
     expose:
-      - 80
+      #- 80
     links:
       - mongo
       - redis
@@ -31,7 +31,7 @@ services:
     volumes:
       - ./:/usr/src/app
     expose:
-      - 80
+      #- 80
     links:
       - mongo
       - redis
@@ -57,15 +57,15 @@ services:
     ports:
       - "6379:6379"
   # Comment this section (eg: 'nginx-proxy') to run server locally without nginx proxying to vhost + 'ports'
-  # nginx-proxy:
-  #   image: jwilder/nginx-proxy
-  #   container_name: nginx-proxy
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - /var/run/docker.sock:/tmp/docker.sock:ro
-  #   expose:
-  #     - "80"
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    expose:
+      - "80"
   haproxy:
     image: haproxy:latest
     build: ./dockerBuilds/haproxy
@@ -74,10 +74,10 @@ services:
      - webb
      - webc
     # Uncomment this section (eg: 'ports') to run server locally without nginx proxying to vhost
-    ports:
-     - "443:443" 
-     - "80:80"
-     - "70:70"
+    # ports:
+    #  - "443:443" 
+    #  - "80:80"
+    #  - "70:70"
     expose:
      - "80"
      - "70"
